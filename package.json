@@ -1,0 +1,17 @@
+{
+  "name": "csv-redis",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "turbo": "^2.10.12"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "workspaces": ["apps/*", "packages/*"],
+  "dependencies": {
+    "@repo/db": "workspace:*"
+  }
+}

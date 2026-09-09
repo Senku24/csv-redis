@@ -1,0 +1,37 @@
+// use prisma-next
+
+enum JobStatus {
+  @@type("pg/text@1")
+  Queued     = "queued"
+  Processing = "processing"
+  Done       = "done"
+  Failed     = "failed"
+}
+
+model Job {
+  id            String    @id @default(uuid())
+  filename      String
+  status        JobStatus @default(Queued)
+  totalRows     Int?
+  processedRows Int       @default(0)
+  errorCount    Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     temporal.updatedAt()
+
+  rows Row[]
+
+  @@map("job")
+}
+
+model Row {
+  id        String   @id @default(uuid())
+  jobId     String
+  rowNumber Int
+  data      Json
+  error     String?
+  createdAt DateTime @default(now())
+
+  job Job @relation(fields: [jobId], references: [id])
+
+  @@map("row")
+}
